@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Dropzone from './components/Dropzone'
 import GlobalStyle from './styles/globalStyle'
 import styled from 'styled-components'
-import { Paper, Box, Button } from '@mui/material'
+import { Paper, Box, Button, Snackbar, Alert } from '@mui/material'
 import axios from 'axios'
 import { convertFileToBase64 } from './utils/helpers'
 
@@ -20,11 +20,11 @@ const Form = styled.form`
 
 function App() {
   const [file, setFile] = useState(null)
+  const [shouldOpenSnackbar, setShouldOpenSnackbar] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     const base64File = await convertFileToBase64(file)
-    console.log('base64File: ', base64File)
 
     const request = {
       File: base64File,
@@ -35,6 +35,8 @@ function App() {
       .post('https://jsonplaceholder.typicode.com/posts', request)
       .then((res) => {
         console.log(res)
+        setShouldOpenSnackbar(true)
+        setFile(null)
       })
       .catch((error) => console.log(error))
   }
@@ -58,6 +60,20 @@ function App() {
           </Form>
         </Box>
       </Paper>
+
+      <Snackbar
+        open={shouldOpenSnackbar}
+        autoHideDuration={6000}
+        onClose={() => setShouldOpenSnackbar(false)}
+      >
+        <Alert
+          onClose={() => setShouldOpenSnackbar(false)}
+          severity="success"
+          sx={{ width: '100%' }}
+        >
+          File uploaded!
+        </Alert>
+      </Snackbar>
     </Container>
   )
 }

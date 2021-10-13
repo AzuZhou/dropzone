@@ -13,7 +13,7 @@ const Container = styled.div`
   padding: 20px;
   border-width: 2px;
   border-radius: 2px;
-  border-color: ${(props) => getColor(props)};
+  border-color: #eeeeee;
   border-style: dashed;
   background-color: #fafafa;
   color: #bdbdbd;
@@ -29,13 +29,6 @@ const Container = styled.div`
     }
   }
 `
-
-const getColor = (props) => {
-  if (props.isDragAccept) {
-    return '#00e676'
-  }
-  return '#eeeeee'
-}
 
 const Dropzone = ({ uploadedFile }) => {
   const onDrop = useCallback((acceptedFiles) => {
