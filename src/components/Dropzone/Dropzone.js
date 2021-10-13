@@ -30,12 +30,16 @@ const Container = styled.div`
   }
 `
 
-const Dropzone = ({ uploadedFile }) => {
+const Dropzone = ({ uploadedFile, isLoading }) => {
   const onDrop = useCallback((acceptedFiles) => {
     uploadedFile(acceptedFiles)
   }, [])
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop, multiple: false })
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    multiple: false,
+    disabled: isLoading,
+  })
 
   return (
     <Container>
