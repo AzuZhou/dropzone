@@ -3,7 +3,7 @@ import { useDropzone } from 'react-dropzone'
 import styled from 'styled-components'
 import UploadFileIcon from '@mui/icons-material/UploadFile'
 
-import { COLORS } from '../../styles/constants'
+import { COLORS } from 'styles/constants'
 
 const Container = styled.div`
   width: 100%;

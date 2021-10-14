@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import styled from 'styled-components'
 import FilePreviewer from 'react-file-previewer'
+import styled from 'styled-components'
 
 import SectionLoader from '../SectionLoader'
 

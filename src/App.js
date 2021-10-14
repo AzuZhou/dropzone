@@ -1,20 +1,20 @@
 import { useState, useEffect } from 'react'
+import axios from 'axios'
 import styled from 'styled-components'
 import { Paper, Button, Snackbar, Alert, CircularProgress } from '@mui/material'
-import axios from 'axios'
 import { styled as muiStyled } from '@mui/material/styles'
 
-import Dropzone from './components/Dropzone'
-import File from './components/File'
-import Modal from './components/Modal'
-import FilePreview from './components/FilePreview'
-import SectionLoader from './components/SectionLoader'
+import Dropzone from 'components/Dropzone'
+import File from 'components/File'
+import Modal from 'components/Modal'
+import FilePreview from 'components/FilePreview'
+import SectionLoader from 'components/SectionLoader'
 
-import { convertFileToBase64 } from './utils/helpers'
+import { convertFileToBase64 } from 'utils/helpers'
 
-import { COLORS } from './styles/constants'
+import { COLORS } from 'styles/constants'
 
-import GlobalStyle from './styles/globalStyle'
+import GlobalStyle from 'styles/globalStyle'
 
 const Container = styled.div`
   height: 100%;

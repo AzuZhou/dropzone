@@ -5,7 +5,7 @@ import { Typography } from '@mui/material'
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
 import ButtonUnstyled from '@mui/core/ButtonUnstyled'
 
-import { COLORS } from '../../styles/constants'
+import { COLORS } from 'styles/constants'
 
 const Container = styled.div`
   width: 100%;
