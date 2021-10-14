@@ -27,6 +27,8 @@ const FilePreview = ({ file, base64 }) => {
     }
   }, [isLoading])
 
+  // TODO: replace react-file-previewer
+
   return (
     <Container opacity={canShow ? 1 : 0}>
       <FilePreviewer

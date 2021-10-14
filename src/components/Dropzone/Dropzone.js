@@ -5,9 +5,12 @@ import UploadFileIcon from '@mui/icons-material/UploadFile'
 import { Container } from './styled'
 
 const Dropzone = ({ uploadedFile, isLoading }) => {
-  const onDrop = useCallback((acceptedFiles) => {
-    uploadedFile(acceptedFiles)
-  }, [])
+  const onDrop = useCallback(
+    (acceptedFiles) => {
+      uploadedFile(acceptedFiles)
+    },
+    [uploadedFile]
+  )
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
