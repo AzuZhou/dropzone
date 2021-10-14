@@ -27,7 +27,13 @@ const GlobalStyle = createGlobalStyle`
       color: initial;
     }
   }
-}
-`
+
+  button {
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+}`
 
 export default GlobalStyle
