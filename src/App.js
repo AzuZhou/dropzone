@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
-import { Paper, Button, Snackbar, Alert, CircularProgress } from '@mui/material'
+import { Paper, Button, CircularProgress } from '@mui/material'
 import { styled as muiStyled } from '@mui/material/styles'
 
 import Dropzone from 'components/Dropzone'
@@ -9,6 +9,7 @@ import File from 'components/File'
 import Modal from 'components/Modal'
 import FilePreview from 'components/FilePreview'
 import SectionLoader from 'components/SectionLoader'
+import Snackbar from 'components/Snackbar'
 
 import { convertFileToBase64 } from 'utils/helpers'
 
@@ -143,18 +144,9 @@ const App = () => {
       </Modal>
 
       <Snackbar
-        open={shouldOpenSnackbar}
-        autoHideDuration={3000}
-        onClose={() => setShouldOpenSnackbar(false)}
-      >
-        <Alert
-          onClose={() => setShouldOpenSnackbar(false)}
-          severity="success"
-          sx={{ width: '100%' }}
-        >
-          File uploaded!
-        </Alert>
-      </Snackbar>
+        shouldOpenSnackbar={shouldOpenSnackbar}
+        setShouldOpenSnackbar={setShouldOpenSnackbar}
+      />
     </Container>
   )
 }
