@@ -63,12 +63,12 @@ const Delete = styled(ButtonUnstyled)`
   }
 `
 
-const File = ({ file, deleteFile }) => {
+const File = ({ file, deleteFile, openFile }) => {
   const isPDF = file.type === 'application/pdf'
 
   return (
     <Container>
-      <Info>
+      <Info onClick={openFile}>
         {isPDF ? (
           <PictureAsPdfIcon sx={{ color: 'text.secondary' }} />
         ) : (

@@ -1,10 +1,11 @@
+import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import FilePreviewer from 'react-file-previewer'
-import DeleteIcon from '@mui/icons-material/Delete'
 
-// INSIDE MODAL
+import SectionLoader from '../SectionLoader'
 
 const Container = styled.div`
+  position: relative;
   height: 100%;
   width: 100%;
 
@@ -12,54 +13,73 @@ const Container = styled.div`
   justify-content: flex-start;
   align-items: center;
 
+  transition: opacity 0.3s ease-in;
+  opacity: ${(props) => props.opacity};
+
+  .preview-wrapper,
+  .preview-wrapper,
+  .preview-content,
+  .preview-file {
+    height: inherit;
+    width: inherit;
+  }
+
   .preview-wrapper {
-    height: 100%;
-    width: 100%;
-
-    .preview-bar,
-    .preview-icons {
-      display: none;
-    }
-
     .preview-content {
-      width: inherit;
-      height: inherit;
       .preview-file {
-        width: inherit;
-        height: inherit;
-
         img {
-          width: 100%;
-          height: 100%;
+          width: 100% !important;
+          height: 100% !important;
           object-fit: cover;
         }
 
-        > div {
-          width: inherit;
-          height: inherit;
-          > div {
-            width: inherit;
-            height: inherit;
-            > div {
-              width: inherit;
-              height: inherit;
-              canvas {
-                width: 100% !important;
-                height: 100% !important;
-                object-fit: cover;
-              }
-            }
-          }
+        div {
+          width: 100%;
+          height: 100%;
+        }
+
+        canvas {
+          width: 100% !important;
+          height: 100% !important;
+          object-fit: cover;
         }
       }
     }
   }
 `
 
-const FilePreview = ({ file, base64 }) => (
-  <Container>
-    <FilePreviewer file={{ data: base64, mimeType: file.type, name: file.name }} />
-  </Container>
-)
+const FilePreview = ({ file, base64 }) => {
+  const [canShow, setCanShow] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setCanShow(true)
+      setIsLoading(true)
+    }, 2000)
+
+    return () => clearTimeout(timer)
+  }, [])
+
+  useEffect(() => {
+    if (isLoading) {
+      const timer = setTimeout(() => {
+        setIsLoading(false)
+      }, 1000)
+
+      return () => clearTimeout(timer)
+    }
+  }, [isLoading])
+
+  return (
+    <Container opacity={canShow ? 1 : 0}>
+      <FilePreviewer
+        file={{ data: base64, mimeType: file.type, name: file.name }}
+        hideControls={true}
+      />
+      {canShow && isLoading ? <SectionLoader /> : null}
+    </Container>
+  )
+}
 
 export default FilePreview

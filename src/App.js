@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { Paper, Box, Button, Snackbar, Alert, CircularProgress } from '@mui/material'
+import { Paper, Button, Snackbar, Alert, CircularProgress } from '@mui/material'
 import axios from 'axios'
 import { styled as muiStyled } from '@mui/material/styles'
 
 import Dropzone from './components/Dropzone'
 import File from './components/File'
+import Modal from './components/Modal'
+import FilePreview from './components/FilePreview'
+import SectionLoader from './components/SectionLoader'
 
 import { convertFileToBase64 } from './utils/helpers'
 
@@ -36,10 +39,11 @@ const Form = styled.form`
   pointer-events: ${(props) => (props.isLoading ? 'none' : 'auto')};
 `
 
-function App() {
+const App = () => {
   const [file, setFile] = useState(null)
   const [base64File, setBase64File] = useState(null)
   const [shouldOpenSnackbar, setShouldOpenSnackbar] = useState(false)
+  const [shouldOpenModal, setShouldOpenModal] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
 
   const handleSubmit = async (e) => {
@@ -57,7 +61,7 @@ function App() {
       .then((res) => {
         console.log(res)
         setIsLoading(false)
-        setShouldOpenSnackbar(false)
+        setShouldOpenSnackbar(true)
         setFile(null)
       })
       .catch((error) => {
@@ -83,15 +87,14 @@ function App() {
     return () => clearTimeout(timer)
   }, [])
 
-  const Card = muiStyled(Box)(({ theme }) => ({
+  const Card = muiStyled(Paper)(({ theme }) => ({
     display: 'flex',
     padding: 20,
+    height: 500,
     [theme.breakpoints.down('sm')]: {
-      width: '100%',
-      height: 500,
+      width: '94%',
     },
     [theme.breakpoints.up('sm')]: {
-      height: 500,
       width: 500,
     },
   }))
@@ -107,8 +110,6 @@ function App() {
     },
   }))
 
-  // TODO: add modal with file preview
-
   return (
     <Container>
       <GlobalStyle />
@@ -116,34 +117,30 @@ function App() {
       {isLoading && !file ? (
         <CircularProgress />
       ) : (
-        <Paper elevation={3}>
-          <Card>
-            <Form onSubmit={handleSubmit} isLoading={isLoading}>
-              <Dropzone uploadedFile={handleUploadedFile} isLoading={isLoading} />
-              {/* {file && <FilePreview file={file} base64={base64File} />} */}
+        <Card elevation={3}>
+          <Form onSubmit={handleSubmit} isLoading={isLoading}>
+            <Dropzone uploadedFile={handleUploadedFile} isLoading={isLoading} />
 
-              {file && <File file={file} deleteFile={handleDeleteFile} />}
+            {file && (
+              <File
+                file={file}
+                deleteFile={handleDeleteFile}
+                openFile={() => setShouldOpenModal(true)}
+              />
+            )}
 
-              <Submit type="submit" onClick={handleSubmit} variant="contained" disabled={!file}>
-                submit
-              </Submit>
+            <Submit type="submit" onClick={handleSubmit} variant="contained" disabled={!file}>
+              submit
+            </Submit>
 
-              {isLoading && (
-                <CircularProgress
-                  size={24}
-                  sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    marginTop: '-12px',
-                    marginLeft: '-12px',
-                  }}
-                />
-              )}
-            </Form>
-          </Card>
-        </Paper>
+            {isLoading && <SectionLoader />}
+          </Form>
+        </Card>
       )}
+
+      <Modal open={shouldOpenModal} handleClose={() => setShouldOpenModal(false)}>
+        <FilePreview file={file} base64={base64File} />
+      </Modal>
 
       <Snackbar
         open={shouldOpenSnackbar}
